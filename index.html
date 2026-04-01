@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battery Passport Â· Alterity LMT/LFP</title>
+<style>
+  :root {
+    --green: #2e7d4f;
+    --green-light: #e8f5ee;
+    --green-mid: #4caf7d;
+    --gray: #f5f5f5;
+    --dark: #1a1a2e;
+    --text: #333;
+    --border: #e0e0e0;
+    --confirmed: #2e7d4f;
+    --partial: #f59e0b;
+    --assumed: #3b82f6;
+    --pending: #9ca3af;
+    --dynamic: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f0; color: var(--text); }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--dark) 0%, #16423c 100%);
+    color: white;
+    padding: 28px 20px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .header .badge {
+    display: inline-block;
+    background: var(--green-mid);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header p { font-size: 13px; opacity: 0.75; }
+  .header .dpp-id {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 11px;
+    opacity: 0.85;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* STATUS LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 16px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    justify-content: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* SECTION */
+  .section { margin: 12px 12px 0; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--green);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header .icon { font-size: 18px; }
+  .section-header h2 { font-size: 14px; font-weight: 600; flex: 1; }
+  .section-header .chevron { font-size: 12px; transition: transform 0.2s; }
+  .section-header.collapsed .chevron { transform: rotate(-90deg); }
+  .section-body {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid var(--border);
+    border-top: none;
+    overflow: hidden;
+  }
+  .section-body.hidden { display: none; }
+
+  /* FIELD ROW */
+  .field {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field:last-child { border-bottom: none; }
+  .field-label { font-size: 11px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field-value { font-size: 14px; color: var(--dark); font-weight: 500; line-height: 1.4; }
+  .field-value.null-val { color: #bbb; font-style: italic; font-weight: 400; font-size: 13px; }
+  .field-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .field-note { font-size: 11px; color: #999; margin-top: 2px; line-height: 1.4; }
+
+  /* STATUS BADGE */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .status.confirmed { background: #e8f5ee; color: var(--confirmed); }
+  .status.partial    { background: #fef3c7; color: #b45309; }
+  .status.assumed    { background: #eff6ff; color: #1d4ed8; }
+  .status.pending    { background: #f3f4f6; color: #6b7280; }
+  .status.dynamic    { background: #f5f3ff; color: var(--dynamic); }
+
+  /* SUMMARY CARD */
+  .summary {
+    margin: 12px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .summary h3 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 4px; }
+  .summary-item { text-align: center; padding: 10px 6px; border-radius: 10px; }
+  .summary-item .num { font-size: 22px; font-weight: 800; }
+  .summary-item .lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .summary-item.c { background: #e8f5ee; color: var(--confirmed); }
+  .summary-item.p { background: #fef3c7; color: #b45309; }
+  .summary-item.a { background: #eff6ff; color: #1d4ed8; }
+  .summary-item.pe { background: #f3f4f6; color: #6b7280; }
+  .summary-item.d { background: #f5f3ff; color: var(--dynamic); }
+  .summary-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 20px 16px 32px;
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+  .footer strong { color: #888; }
+
+  /* SUB-SECTION title */
+  .sub-title {
+    padding: 10px 16px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--green);
+    background: var(--green-light);
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 12px; }
+  .tag { background: var(--green-light); color: var(--green); font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
+  .tag.warn { background: #fef3c7; color: #b45309; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="badge">EU Battery Passport Â· Reg. 2023/1542</div>
+  <h1>Alterity LMT / LFP</h1>
+  <p>Light Means of Transport Battery</p>
+  <div class="dpp-id">urn:alterity:dpp:lmt-lfp-piloto-001</div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:var(--confirmed)"></div>Confirmado</div>
+  <div class="legend-item"><div class="dot" style="background:var(--partial)"></div>Parcial</div>
+  <div class="legend-item"><div class="dot" style="background:var(--assumed)"></div>Supuesto</div>
+  <div class="legend-item"><div class="dot" style="background:var(--pending)"></div>Pendiente</div>
+  <div class="legend-item"><div class="dot" style="background:var(--dynamic)"></div>DinÃ¡mico (BMS)</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <h3>Estado del pasaporte</h3>
+  <div class="summary-grid">
+    <div class="summary-item c"><div class="num">4</div><div class="lbl">Confirmados</div></div>
+    <div class="summary-item p"><div class="num">11</div><div class="lbl">Parciales</div></div>
+    <div class="summary-item a"><div class="num">11</div><div class="lbl">Supuestos</div></div>
+  </div>
+  <div class="summary-grid-2" style="margin-top:10px">
+    <div class="summary-item pe"><div class="num">29</div><div class="lbl">Pendientes</div></div>
+    <div class="summary-item d"><div class="num">9</div><div class="lbl">DinÃ¡micos</div></div>
+  </div>
+</div>
+
+<!-- 1. INFORMACIÃN GENERAL -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">ð­</span>
+    <h2>IdentificaciÃ³n y datos generales</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">Fabricante</div>
+      <div class="field-row">
+        <div class="field-value">SIX TO GO SOLUTIONS S.L.<br><small style="font-weight:400;color:#666">Alterity Energy</small></div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Lugar de fabricaciÃ³n</div>
+      <div class="field-row">
+        <div class="field-value">Zamudio, Bizkaia â EspaÃ±a</div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Contacto</div>
+      <div class="field-value">info@alterity.energy Â· +34 944 374 922</div>
+    </div>
+    <div class="field">
+      <div class="field-label">CategorÃ­a de baterÃ­a</div>
+      <div class="field-row">
+        <div class="field-value">LMT â Light Means of Transport</div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Estado de la baterÃ­a</div>
+      <div class="field-row">
+        <div class="field-value">Original</div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Fecha de fabricaciÃ³n</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente de lote concreto</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Masa de la baterÃ­a</div>
+      <div class="field-row">
+        <div class="field-value null-val">No publicado</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">GarantÃ­a</div>
+      <div class="field-row">
+        <div class="field-value null-val">No publicado</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. COMPOSICIÃN DE MATERIALES -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">Úï¸</span>
+    <h2>ComposiciÃ³n de materiales</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">QuÃ­mica de la baterÃ­a</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">LFP â LiFePOâ</div>
+          <div class="field-note">Lithium Iron Phosphate. ElecciÃ³n del piloto.<br>Alterity tambiÃ©n trabaja con NMC.</div>
+        </div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+    <div class="sub-title">Materias primas crÃ­ticas</div>
+    <div class="tag-list">
+      <span class="tag">Litio (Li)</span>
+      <span class="tag">Grafito natural</span>
+    </div>
+    <div class="sub-title">Materiales principales</div>
+    <div class="field">
+      <div class="field-row">
+        <div>
+          <div class="field-value">CÃ¡todo: LiFePOâ</div>
+          <div class="field-note">NÂº CAS: 15365-14-7</div>
+        </div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-row">
+        <div class="field-value">Ãnodo: Grafito</div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-row">
+        <div class="field-value">Electrolito: LiPFâ</div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="sub-title">Sustancias peligrosas</div>
+    <div class="field">
+      <div class="field-row">
+        <div>
+          <div class="field-value">LiPFâ (electrolito)</div>
+          <div class="field-note">Toxicidad aguda. ConcentraciÃ³n exacta pendiente.</div>
+        </div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. RENDIMIENTO Y DURABILIDAD -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">â¡</span>
+    <h2>Rendimiento y durabilidad</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="sub-title">Capacidad y tensiÃ³n</div>
+    <div class="field">
+      <div class="field-label">Capacidad nominal</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">40 â 600 Ah</div>
+          <div class="field-note">Rango general movilidad. Modelo piloto pendiente.</div>
+        </div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">TensiÃ³n mÃ¡xima</div>
+      <div class="field-row">
+        <div class="field-value">â¤ 300 V</div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">TensiÃ³n nominal / mÃ­nima</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente de ficha tÃ©cnica</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Estado de carga (SoC)</div>
+      <div class="field-row">
+        <div class="field-value null-val">Dato en tiempo real</div>
+        <span class="status dynamic">â³ BMS</span>
+      </div>
+    </div>
+    <div class="sub-title">Eficiencia</div>
+    <div class="field">
+      <div class="field-label">Eficiencia energÃ©tica (round-trip)</div>
+      <div class="field-row">
+        <div class="field-value">Hasta 96%</div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Eficiencia al 50% vida Ãºtil</div>
+      <div class="field-row">
+        <div class="field-value">Hasta 96%</div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="sub-title">Vida Ãºtil</div>
+    <div class="field">
+      <div class="field-label">Umbral de agotamiento de capacidad</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">80% SoH</div>
+          <div class="field-note">EstÃ¡ndar del sector. Pendiente de confirmaciÃ³n.</div>
+        </div>
+        <span class="status assumed">~ Supuesto</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Vida Ãºtil esperada (aÃ±os / ciclos)</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente de datos oficiales</div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">NÂº de ciclos completados</div>
+      <div class="field-row">
+        <div class="field-value null-val">Dato en tiempo real</div>
+        <span class="status dynamic">â³ BMS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. HUELLA DE CARBONO -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">ð±</span>
+    <h2>Huella de carbono</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">Huella de carbono total</div>
+      <div class="field-row">
+        <div class="field-value null-val">Requiere estudio LCA/PCF</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Clase de rendimiento de carbono</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="sub-title">Por etapa del ciclo de vida</div>
+    <div class="field"><div class="field-row"><div class="field-value">ExtracciÃ³n de materias primas</div><span class="status pending">â Pendiente</span></div></div>
+    <div class="field"><div class="field-row"><div class="field-value">FabricaciÃ³n</div><span class="status pending">â Pendiente</span></div></div>
+    <div class="field"><div class="field-row"><div class="field-value">DistribuciÃ³n</div><span class="status pending">â Pendiente</span></div></div>
+    <div class="field"><div class="field-row"><div class="field-value">Fin de vida y reciclaje</div><span class="status pending">â Pendiente</span></div></div>
+  </div>
+</div>
+
+<!-- 5. CIRCULARIDAD -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">â»ï¸</span>
+    <h2>Circularidad y eficiencia de recursos</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">Perfil de seguridad</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">Sin riesgo de thermal runaway</div>
+          <div class="field-note">DiseÃ±o robusto y sellado. Sin ventilaciÃ³n forzada. Aislamiento tÃ©rmico y mecÃ¡nico adaptado.</div>
+        </div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Segunda vida / remanufactura</div>
+      <div class="field-row">
+        <div class="field-value">Capacidad comunicada</div>
+        <span class="status partial">â Parcial</span>
+      </div>
+      <div class="field-note">Instrucciones detalladas y red de recogida pendientes.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Manual de desmontaje</div>
+      <div class="field-row">
+        <div class="field-value null-val">No publicado aÃºn</div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="sub-title">Contenido reciclado</div>
+    <div class="field">
+      <div class="field-label">Litio reciclado (pre / post consumidor)</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Cobalto reciclado</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">N/A</div>
+          <div class="field-note">La quÃ­mica LFP no contiene cobalto.</div>
+        </div>
+        <span class="status confirmed">â Confirmado</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. ETIQUETAS Y CONFORMIDAD -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">ð</span>
+    <h2>Etiquetas y conformidad</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">DeclaraciÃ³n de conformidad UE</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente de proceso de certificaciÃ³n</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Informe de ensayos</div>
+      <div class="field-row">
+        <div>
+          <div class="field-value">Tests funcionales realizados</div>
+          <div class="field-note">Alterity indica validaciÃ³n y apoyo a certificaciÃ³n, sin informes pÃºblicos concretos.</div>
+        </div>
+        <span class="status partial">â Parcial</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">SÃ­mbolo recogida selectiva</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. CADENA DE SUMINISTRO -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="icon">ð</span>
+    <h2>Diligencia debida en la cadena de suministro</h2>
+    <span class="chevron">â¾</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-label">Informe de diligencia debida</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">VerificaciÃ³n de terceros</div>
+      <div class="field-row">
+        <div class="field-value null-val">Pendiente</div>
+        <span class="status pending">â Pendiente</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-note">Alterity trabaja con proveedores europeos y asiÃ¡ticos de celdas. InformaciÃ³n detallada pendiente de facilitar.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>VersiÃ³n 0.1 Â· Prototipo piloto</strong><br>
+  Generado: 31 mar 2026<br>
+  Basado en BatteryPassDataModel (BMWK) v1.2<br>
+  Reglamento UE de BaterÃ­as 2023/1542
+</div>
+
+<script>
+  function toggle(header) {
+    header.classList.toggle('collapsed');
+    header.nextElementSibling.classList.toggle('hidden');
+  }
+</script>
+</body>
+</html>
