@@ -1,0 +1,527 @@
+{
+  "_meta": {
+    "schema": "BatteryPassDataModel v1.2 (BatteryPass / BMWK)",
+    "basedOn": "https://github.com/batterypass/BatteryPassDataModel",
+    "regulation": "EU Battery Regulation 2023/1542",
+    "generatedDate": "2026-03-31",
+    "version": "0.1-piloto",
+    "notes": "Prototipo local para piloto Alterity LMT/LFP. Los campos marcados con '_status' indican nivel de certeza: 'confirmed', 'partial', 'assumed', 'pending'."
+  },
+
+  "generalProductInformation": {
+    "_aspect": "io.BatteryPass.GeneralProductInformation:1.0.0",
+
+    "productPassportIdentifier": {
+      "value": "urn:alterity:dpp:lmt-lfp-piloto-001",
+      "_status": "assumed",
+      "_note": "Identificador provisional para el piloto. Pendiente de sistema definitivo."
+    },
+    "batteryIdentifier": {
+      "value": "ALT-LMT-LFP-001",
+      "_status": "assumed",
+      "_note": "Número de serie provisional. Pendiente de modelo/lote concreto."
+    },
+    "manufacturerIdentification": {
+      "value": "SIX TO GO SOLUTIONS S.L. (marca comercial: Alterity Energy)",
+      "address": {
+        "streetAddress": "Polígono Torrelarragoiti P5-D",
+        "postalCode": "48170",
+        "addressCountry": "Spain",
+        "city": "Zamudio, Bizkaia (Basque Country)"
+      },
+      "contact": {
+        "email": "info@alterity.energy",
+        "phone": "+34 944 374 922",
+        "web": "https://alterity.energy"
+      },
+      "_status": "confirmed",
+      "_source": "https://alterity.energy/en/contact/"
+    },
+    "manufacturingPlace": {
+      "addressCountry": "Spain",
+      "city": "Zamudio",
+      "region": "Bizkaia, Basque Country",
+      "_status": "confirmed",
+      "_source": "https://alterity.energy/en/contact/ ; https://alterity.energy/en/mobility-sector/"
+    },
+    "manufacturingDate": {
+      "value": null,
+      "_status": "pending",
+      "_note": "Pendiente de modelo/lote concreto."
+    },
+    "dateOfPuttingIntoService": {
+      "value": null,
+      "_status": "pending",
+      "_note": "Dato dinámico. Depende de la unidad puesta en servicio."
+    },
+    "batteryCategory": {
+      "value": "lmt",
+      "_status": "assumed",
+      "_note": "Light Means of Transport. Asumido para el piloto de movilidad ligera."
+    },
+    "batteryStatus": {
+      "value": "Original",
+      "_status": "assumed",
+      "_note": "Supuesto de arranque del piloto."
+    },
+    "batteryMass": {
+      "value": null,
+      "unit": "kg",
+      "_status": "pending",
+      "_note": "No publicado en web pública. Pendiente de ficha técnica."
+    },
+    "warrantyPeriod": {
+      "value": null,
+      "unit": "months",
+      "_status": "pending",
+      "_note": "No visible en web pública."
+    },
+    "economicOperator": {
+      "value": null,
+      "_status": "pending",
+      "_note": "Pendiente de definición interna."
+    }
+  },
+
+  "labels": {
+    "_aspect": "io.BatteryPass.Labels:1.0.0",
+
+    "euDeclarationOfConformityId": {
+      "value": null,
+      "_status": "pending",
+      "_note": "No visible en web pública. Pendiente de proceso de certificación."
+    },
+    "declarationOfConformity": {
+      "url": null,
+      "_status": "pending"
+    },
+    "resultOfTestReport": {
+      "url": null,
+      "_status": "partial",
+      "_note": "Alterity indica validación y tests funcionales y apoyo a certificación, pero no publica informes concretos."
+    },
+    "separateCollection": {
+      "symbol": null,
+      "description": {
+        "es": "Este producto debe depositarse en un punto de recogida selectiva de baterías al final de su vida útil.",
+        "en": "This product must be deposited at a selective battery collection point at the end of its useful life."
+      },
+      "_status": "pending",
+      "_note": "Símbolo y URL pendientes."
+    },
+    "materialSymbols": []
+  },
+
+  "carbonFootprint": {
+    "_aspect": "io.BatteryPass.CarbonFootprint:1.0.0",
+
+    "batteryCarbonFootprint": {
+      "value": null,
+      "unit": "kg CO2e / kWh",
+      "_status": "pending",
+      "_note": "Requiere estudio de Análisis de Ciclo de Vida (ACV/LCA). No disponible en web pública."
+    },
+    "carbonFootprintPerformanceClass": {
+      "value": null,
+      "_status": "pending"
+    },
+    "carbonFootprintStudy": {
+      "url": null,
+      "_status": "pending",
+      "_note": "Requiere estudio PCF/LCA oficial."
+    },
+    "carbonFootprintPerLifecycleStage": [
+      {
+        "lifecycleStage": "RawMaterialExtraction",
+        "carbonFootprint": null,
+        "unit": "kg CO2e / kWh",
+        "_status": "pending"
+      },
+      {
+        "lifecycleStage": "MainProduction",
+        "carbonFootprint": null,
+        "unit": "kg CO2e / kWh",
+        "_status": "pending"
+      },
+      {
+        "lifecycleStage": "Distribution",
+        "carbonFootprint": null,
+        "unit": "kg CO2e / kWh",
+        "_status": "pending"
+      },
+      {
+        "lifecycleStage": "EndOfLifeAndRecycling",
+        "carbonFootprint": null,
+        "unit": "kg CO2e / kWh",
+        "_status": "pending"
+      }
+    ]
+  },
+
+  "supplyChainDueDiligence": {
+    "_aspect": "io.BatteryPass.SupplyChainDueDiligence:1.0.0",
+
+    "dueDiligenceReport": {
+      "url": null,
+      "_status": "pending",
+      "_note": "No visible en web pública."
+    },
+    "thirdPartyAssurances": [],
+    "supplyChainIndices": [],
+    "_note": "Alterity trabaja con proveedores europeos y asiáticos de celdas. Información detallada pendiente."
+  },
+
+  "materialComposition": {
+    "_aspect": "io.BatteryPass.MaterialComposition:1.0.0",
+
+    "productChemistry": {
+      "shortName": "LFP",
+      "clearName": "Lithium Iron Phosphate (LiFePO4)",
+      "_status": "confirmed",
+      "_note": "Elección recomendada para el piloto LMT. Alterity también trabaja con NMC.",
+      "_source": "https://alterity.energy/en/mobility-sector/ ; https://alterity.energy/en/services/"
+    },
+    "criticalRawMaterials": [
+      {
+        "name": "Lithium",
+        "casNumber": "7439-93-2",
+        "_status": "assumed",
+        "_note": "Presente en todas las baterías LFP. Clasificado como CRM por la UE."
+      },
+      {
+        "name": "Natural Graphite",
+        "_status": "assumed",
+        "_note": "Material de ánodo estándar en celdas LFP."
+      }
+    ],
+    "batteryMaterials": [
+      {
+        "materialName": "Lithium Iron Phosphate (LiFePO4)",
+        "materialIdentifier": "15365-14-7",
+        "location": "Cathode",
+        "batteryMaterialWeight": null,
+        "_status": "assumed"
+      },
+      {
+        "materialName": "Graphite",
+        "location": "Anode",
+        "batteryMaterialWeight": null,
+        "_status": "assumed"
+      },
+      {
+        "materialName": "Lithium hexafluorophosphate (LiPF6)",
+        "location": "Electrolyte",
+        "batteryMaterialWeight": null,
+        "_status": "assumed"
+      }
+    ],
+    "hazardousSubstances": [
+      {
+        "hazardousSubstanceName": "Lithium hexafluorophosphate",
+        "hazardousSubstanceIdentifier": "21324-40-3",
+        "hazardousSubstanceClass": "AcuteToxicity",
+        "hazardousSubstanceConcentration": null,
+        "hazardousSubstanceLocation": {
+          "componentName": "Electrolyte",
+          "componentId": null
+        },
+        "hazardousSubstanceImpact": ["Harmful if swallowed", "Causes skin irritation"],
+        "_status": "assumed",
+        "_note": "Presente en celdas LFP estándar. Concentración exacta pendiente de ficha técnica."
+      }
+    ]
+  },
+
+  "circularity": {
+    "_aspect": "io.BatteryPass.Circularity:1.0.0",
+
+    "recycledContent": [
+      {
+        "recycledMaterial": "Lithium",
+        "preConsumerShare": null,
+        "postConsumerShare": null,
+        "_status": "pending"
+      },
+      {
+        "recycledMaterial": "Cobalt",
+        "preConsumerShare": null,
+        "postConsumerShare": null,
+        "_status": "confirmed",
+        "_note": "La química LFP no contiene cobalto."
+      }
+    ],
+    "renewableContent": {
+      "value": null,
+      "unit": "%",
+      "_status": "pending"
+    },
+    "safetyRequirements": {
+      "safetyInstructions": null,
+      "extinguishingAgent": ["Water mist", "Dry powder (ABC)"],
+      "_status": "partial",
+      "_note": "Alterity indica: sin riesgo de thermal runaway, diseño robusto y sellado, sin ventilación forzada, aislamiento térmico y mecánico adaptado.",
+      "_source": "https://alterity.energy/en/mobility-sector/"
+    },
+    "dismantlingAndRemovalInformation": [
+      {
+        "documentType": "DismantlingManual",
+        "documentURL": null,
+        "mimeType": null,
+        "_status": "partial",
+        "_note": "Alterity indica capacidad de mantenimiento, reparación, remanufactura y segunda vida, pero no publica manuales concretos."
+      }
+    ],
+    "sourceForSpareParts": [
+      {
+        "nameOfSupplier": "Alterity Energy",
+        "supplierWebAddress": "https://alterity.energy",
+        "emailAddressOfSupplier": "info@alterity.energy",
+        "addressOfSupplier": {
+          "streetAddress": "Polígono Torrelarragoiti P5-D",
+          "postalCode": "48170",
+          "addressCountry": "Spain",
+          "city": "Zamudio"
+        },
+        "components": [
+          {
+            "partName": "Cell",
+            "partNumber": null
+          },
+          {
+            "partName": "BMS (Battery Management System)",
+            "partNumber": null
+          }
+        ],
+        "_status": "partial"
+      }
+    ],
+    "endOfLifeInformation": {
+      "separateCollection": null,
+      "wastePrevention": "https://alterity.energy/en/services/",
+      "informationOnCollection": null,
+      "_status": "partial",
+      "_note": "Alterity comunica remanufactura y segunda vida, pero no publica instrucciones detalladas ni red de recogida concreta.",
+      "_source": "https://alterity.energy/en/services/"
+    }
+  },
+
+  "performanceAndDurability": {
+    "_aspect": "io.BatteryPass.Performance:1.0.0",
+
+    "technicalSpecification": {
+      "batteryChemistry": "LFP",
+      "ratedCapacity": {
+        "value": null,
+        "unit": "Ah",
+        "range": "40–600 Ah (rango general Alterity movilidad)",
+        "_status": "partial",
+        "_note": "Capacidad específica del modelo piloto pendiente. Rango general confirmado en web.",
+        "_source": "https://alterity.energy/en/mobility-sector/"
+      },
+      "nominalVoltage": {
+        "value": null,
+        "unit": "V",
+        "_status": "partial",
+        "_note": "Alterity publica 'hasta 300 V' para soluciones de movilidad. Valor exacto del piloto pendiente."
+      },
+      "minimumVoltage": {
+        "value": null,
+        "unit": "V",
+        "_status": "pending"
+      },
+      "maximumVoltage": {
+        "value": 300,
+        "unit": "V",
+        "_status": "partial",
+        "_note": "Máximo publicado como referencia general.",
+        "_source": "https://alterity.energy/en/mobility-sector/"
+      },
+      "certifiedUsableBatteryEnergy": {
+        "value": null,
+        "unit": "kWh",
+        "_status": "pending"
+      },
+      "stateOfCharge": {
+        "value": null,
+        "unit": "%",
+        "_status": "dynamic",
+        "_note": "Dato dinámico. Requiere BMS."
+      },
+      "stateOfCertifiedEnergy": {
+        "value": null,
+        "unit": "%",
+        "_status": "pending"
+      }
+    },
+
+    "roundtripEfficiency": {
+      "initialRoundTripEnergyEfficiency": {
+        "value": 96,
+        "unit": "%",
+        "_status": "confirmed",
+        "_note": "Alterity publica 'High energy efficiency up to 96%'.",
+        "_source": "https://alterity.energy/en/mobility-sector/"
+      },
+      "roundTripEfficiencyAt50PercentCycleLife": {
+        "value": 96,
+        "unit": "%",
+        "_status": "partial",
+        "_note": "Valor de referencia basado en el dato publicado. Pendiente de ensayo formal."
+      },
+      "remainingRoundTripEnergyEfficiency": {
+        "value": null,
+        "unit": "%",
+        "_status": "dynamic",
+        "_note": "Dato dinámico. Requiere BMS."
+      },
+      "initialSelfDischargingRate": {
+        "value": null,
+        "unit": "% / month",
+        "_status": "pending"
+      }
+    },
+
+    "powerCapability": {
+      "originalPowerCapability": [],
+      "maximumPermittedBatteryPower": {
+        "value": null,
+        "unit": "kW",
+        "_status": "pending"
+      },
+      "powerCapabilityRatio": {
+        "value": null,
+        "_status": "pending"
+      }
+    },
+
+    "internalResistance": {
+      "initialInternalResistancePack": {
+        "value": null,
+        "unit": "mΩ",
+        "_status": "pending"
+      },
+      "currentInternalResistancePack": {
+        "value": null,
+        "unit": "mΩ",
+        "_status": "dynamic"
+      }
+    },
+
+    "batteryLifetime": {
+      "expectedLifetimeYears": {
+        "value": null,
+        "unit": "years",
+        "_status": "partial",
+        "_note": "Alterity comunica capacidad de segunda vida y remanufactura, pero no publica cifra de vida útil concreta."
+      },
+      "expectedNumberOfCycles": {
+        "value": null,
+        "_status": "partial",
+        "_note": "Ídem al anterior."
+      },
+      "warrantyPeriod": {
+        "value": null,
+        "unit": "months",
+        "_status": "pending"
+      },
+      "capacityThresholdExhaustion": {
+        "value": 80,
+        "unit": "%",
+        "_status": "assumed",
+        "_note": "Umbral estándar del sector (80% SoH). Pendiente de confirmación por Alterity."
+      },
+      "numberOfFullCycles": {
+        "value": null,
+        "_status": "dynamic",
+        "_note": "Dato dinámico. Requiere BMS."
+      },
+      "energyThroughput": {
+        "value": null,
+        "unit": "kWh",
+        "_status": "pending"
+      },
+      "putIntoService": {
+        "value": null,
+        "_status": "dynamic"
+      }
+    },
+
+    "temperatureConditions": {
+      "temperatureRangeIdleState": {
+        "lowerBoundary": null,
+        "upperBoundary": null,
+        "unit": "°C",
+        "_status": "pending"
+      },
+      "timeExtremeHighTemp": {
+        "value": null,
+        "unit": "hours",
+        "_status": "dynamic"
+      },
+      "timeExtremeLowTemp": {
+        "value": null,
+        "unit": "hours",
+        "_status": "dynamic"
+      }
+    },
+
+    "negativeEvents": {
+      "numberOfDeepDischargeEvents": {
+        "value": null,
+        "_status": "dynamic"
+      },
+      "numberOfOverchargeEvents": {
+        "value": null,
+        "_status": "dynamic"
+      },
+      "informationOnAccidents": [],
+      "_note": "Datos dinámicos. Requieren integración con BMS."
+    }
+  },
+
+  "_dataQualitySummary": {
+    "confirmed": [
+      "manufacturerIdentification",
+      "manufacturingPlace",
+      "productChemistry (LFP)",
+      "initialRoundTripEnergyEfficiency (96%)",
+      "safetyProfile (no thermal runaway)",
+      "maximumVoltage (≤300V range)"
+    ],
+    "partial": [
+      "ratedCapacity (40–600 Ah range only)",
+      "testReportReference",
+      "dismantlingInformation",
+      "endOfLifeInformation",
+      "recycledContent"
+    ],
+    "assumed": [
+      "batteryCategory (lmt)",
+      "batteryStatus (Original)",
+      "criticalRawMaterials (Lithium, Graphite)",
+      "hazardousSubstances",
+      "capacityThresholdExhaustion (80%)"
+    ],
+    "pending": [
+      "productPassportIdentifier",
+      "batteryIdentifier",
+      "manufacturingDate",
+      "batteryMass",
+      "warrantyPeriod",
+      "carbonFootprint (LCA/PCF study required)",
+      "nominalVoltage",
+      "ratedCapacity (specific model)",
+      "internalResistance",
+      "expectedLifetimeYears",
+      "supplyChainDueDiligence",
+      "euDeclarationOfConformity"
+    ],
+    "dynamic_requiresBMS": [
+      "stateOfCharge",
+      "remainingCapacity",
+      "currentInternalResistancePack",
+      "numberOfFullCycles",
+      "negativeEvents"
+    ]
+  }
+}
