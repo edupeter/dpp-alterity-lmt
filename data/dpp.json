@@ -1,10 +1,20 @@
 {
   "_meta": {
-    "schema": "BatteryPassDataModel v1.2 (BatteryPass / BMWK)",
+    "schema": "BatteryPassDataModel v1.3 (BatteryPass-Ready / BMWK)",
     "basedOn": "https://github.com/batterypass/BatteryPassDataModel",
-    "regulation": "EU Battery Regulation 2023/1542",
-    "generatedDate": "2026-04-09",
-    "version": "0.3-piloto",
+    "regulation": "EU Battery Regulation 2023/1542 + ESPR 2024/1781",
+    "generatedDate": "2026-04-10",
+    "version": "0.4-piloto",
+    "dppStatus": {
+      "value": "draft",
+      "_status": "assumed",
+      "_note": "#2 ESPR. Estado del pasaporte: draft | active | inactive | expired."
+    },
+    "dppGranularity": {
+      "value": "batch",
+      "_status": "assumed",
+      "_note": "#3 ESPR. Granularidad del DPP: model | batch | item."
+    },
     "notes": "Datos de piloto para Alterity LMT/LFP. Campos marcados con '_status': confirmed = verificado en fuente pública; partial = rango o dato genérico; assumed = coherente con la tecnología LFP, pendiente de confirmar; dynamic = requiere BMS en tiempo real."
   },
 
@@ -19,7 +29,17 @@
     "batteryIdentifier": {
       "value": "ALT-LMT-LFP-2025-001-SN-0001",
       "_status": "assumed",
-      "_note": "Número de serie provisional para el piloto."
+      "_note": "#6. Número de serie provisional para el piloto."
+    },
+    "batteryModelIdentifier": {
+      "value": "ALT-LMT-LFP-27kWh",
+      "_status": "assumed",
+      "_note": "#7 Mandatory. Identificador del modelo de batería. Pendiente de confirmar con Alterity."
+    },
+    "batterySerialNumber": {
+      "value": "SN-0001",
+      "_status": "assumed",
+      "_note": "#8 Mandatory. Número de serie individual de la batería."
     },
     "manufacturerIdentification": {
       "value": "SIX TO GO SOLUTIONS S.L. (marca comercial: Alterity Energy)",
@@ -76,10 +96,25 @@
       "_status": "assumed",
       "_note": "5 años o 100.000 km, lo que ocurra antes. Pendiente de confirmar con Alterity."
     },
+    "uniqueEconomicOperatorIdentifier": {
+      "value": "ES-B95817234",
+      "_status": "assumed",
+      "_note": "#9 ESPR. Identificador único del operador económico (CIF/VAT). Pendiente de confirmar."
+    },
+    "uniqueManufacturerIdentifier": {
+      "value": "ES-B95817234-MFR",
+      "_status": "assumed",
+      "_note": "#10 Mandatory. Identificador único del fabricante según registro EU. Pendiente de asignación."
+    },
+    "uniqueFacilityIdentifier": {
+      "value": "ES-FAC-ZAMUDIO-001",
+      "_status": "assumed",
+      "_note": "#11 ESPR. Identificador único de la planta de fabricación. Pendiente de registro."
+    },
     "economicOperator": {
       "value": "SIX TO GO SOLUTIONS S.L. (Alterity Energy)",
       "_status": "assumed",
-      "_note": "Operador económico responsable de la comercialización."
+      "_note": "#12. Operador económico responsable de la comercialización."
     }
   },
 
@@ -109,7 +144,19 @@
       "_status": "assumed",
       "_note": "Símbolo estándar EU. Red SIGRE para España."
     },
-    "materialSymbols": []
+    "materialSymbols": [],
+    "carbonFootprintLabel": {
+      "value": "Class A",
+      "url": "https://alterity.energy/carbon-footprint-label/lmt-lfp",
+      "_status": "assumed",
+      "_note": "#23 Mandatory. Etiqueta de huella de carbono visible en el producto. Formato y diseño según Delegated Act."
+    },
+    "meaningOfLabelsAndSymbols": {
+      "value": "Explicación de todos los símbolos, etiquetas y marcas presentes en la batería y su embalaje.",
+      "url": "https://alterity.energy/labels-guide/lmt-lfp",
+      "_status": "assumed",
+      "_note": "#25 Mandatory. Guía explicativa de todas las etiquetas del producto. URL provisional."
+    }
   },
 
   "carbonFootprint": {
@@ -130,6 +177,12 @@
       "url": "https://alterity.energy/carbon-footprint-lmt",
       "_status": "assumed",
       "_note": "URL provisional. Pendiente de publicación del estudio oficial."
+    },
+    "absoluteBatteryCarbonFootprint": {
+      "value": 1647,
+      "unit": "kg CO2e",
+      "_status": "assumed",
+      "_note": "#35 Voluntary. Huella de carbono absoluta total de la batería (no por unidad funcional). 61 gCO2eq/kWh × 27 kWh."
     },
     "carbonFootprintPerLifecycleStage": [
       {
@@ -179,7 +232,7 @@
       "shortName": "LFP",
       "clearName": "Lithium Iron Phosphate (LiFePO4)",
       "_status": "confirmed",
-      "_note": "Elección confirmada para el piloto LMT.",
+      "_note": "Eleción confirmada para el piloto LMT.",
       "_source": "https://alterity.energy/en/mobility-sector/"
     },
     "criticalRawMaterials": [
@@ -232,6 +285,14 @@
         "_status": "assumed"
       }
     ],
+    "impactOfSubstances": {
+      "value": "El electrolito (LiPF6) es tóxico por ingestión y causa irritación cutánea. La batería sellada no presenta riesgo en uso normal. En caso de rotura del envolvente, evitar contacto directo con el electrolito. El LFP no contiene cobalto ni níquel, eliminando riesgos asociados a estos metales pesados.",
+      "environmentalImpact": "Bajo impacto ambiental relativo gracias a la ausencia de cobalto/níquel. El litio requiere gestión adecuada al final de vida.",
+      "humanHealthImpact": "Sin riesgo en condiciones normales de uso. Riesgo de irritación por contacto con electrolito en caso de daño estructural.",
+      "safetyImpact": "Sin riesgo de thermal runaway. Química LFP inherentemente más estable que NMC/NCA.",
+      "_status": "assumed",
+      "_note": "#43 Mandatory. Impacto de sustancias en medio ambiente, salud humana y seguridad. Pendiente de evaluación formal."
+    },
     "hazardousSubstances": [
       {
         "hazardousSubstanceName": "Lithium hexafluorophosphate",
@@ -376,6 +437,24 @@
         "_status": "assumed",
         "_note": "Energía usable certificada: ~94.4% de la capacidad nominal."
       },
+      "remainingCapacity": {
+        "value": null,
+        "unit": "Ah",
+        "_status": "dynamic",
+        "_note": "#60 Mandatory. Capacidad restante medida. Requiere BMS."
+      },
+      "capacityFade": {
+        "value": null,
+        "unit": "%",
+        "_status": "dynamic",
+        "_note": "#61 Mandatory. Disminución de capacidad respecto al valor inicial. Requiere BMS."
+      },
+      "remainingUsableBatteryEnergy": {
+        "value": null,
+        "unit": "kWh",
+        "_status": "dynamic",
+        "_note": "#63 N/A para LMT pero incluido por completitud. Energía usable restante. Requiere BMS."
+      },
       "stateOfCharge": {
         "value": null,
         "unit": "%",
@@ -410,16 +489,46 @@
         "_status": "dynamic",
         "_note": "Dato dinámico. Requiere BMS."
       },
+      "energyRoundTripEfficiencyFade": {
+        "value": null,
+        "unit": "%",
+        "_status": "dynamic",
+        "_note": "#77 Mandatory. Disminución de la eficiencia round-trip respecto al valor inicial. Requiere BMS."
+      },
       "initialSelfDischargingRate": {
         "value": 3,
         "unit": "% / month",
         "_status": "assumed",
-        "_note": "Autodescarga típica de celdas LFP: 2–4% mensual."
+        "_note": "#78 Voluntary. Autodescarga típica de celdas LFP: 2–4% mensual."
+      },
+      "currentSelfDischargingRate": {
+        "value": null,
+        "unit": "% / month",
+        "_status": "dynamic",
+        "_note": "#79 Voluntary. Tasa de autodescarga actual. Requiere BMS."
+      },
+      "evolutionOfSelfDischargeRates": {
+        "value": null,
+        "unit": "% / month",
+        "_status": "dynamic",
+        "_note": "#80 Mandatory. Evolución histórica de las tasas de autodescarga. Requiere BMS."
       }
     },
 
     "powerCapability": {
       "originalPowerCapability": [],
+      "remainingPowerCapability": {
+        "value": null,
+        "unit": "W",
+        "_status": "dynamic",
+        "_note": "#70 Mandatory. Capacidad de potencia restante. Requiere BMS."
+      },
+      "powerFade": {
+        "value": null,
+        "unit": "%",
+        "_status": "dynamic",
+        "_note": "#71 Mandatory. Disminución de potencia respecto al valor original. Requiere BMS."
+      },
       "maximumPermittedBatteryPower": {
         "value": 54,
         "unit": "kW",
@@ -472,10 +581,26 @@
         "_status": "assumed",
         "_note": "Umbral estándar del sector (80% SoH). Pendiente de confirmación por Alterity."
       },
+      "cycleLifeReferenceTest": {
+        "value": "IEC 62660-1:2018",
+        "_status": "assumed",
+        "_note": "#86 Mandatory. Norma de referencia usada para el test de ciclos de vida. Pendiente de confirmar con Alterity."
+      },
+      "cRateOfRelevantCycleLifeTest": {
+        "value": "1C charge / 1C discharge",
+        "_status": "assumed",
+        "_note": "#87 Mandatory. C-rate usado en el test de referencia de ciclo de vida. Típico 1C/1C para LFP."
+      },
       "numberOfFullCycles": {
         "value": null,
         "_status": "dynamic",
-        "_note": "Dato dinámico. Requiere BMS."
+        "_note": "#85 Mandatory. Dato dinámico. Requiere BMS."
+      },
+      "capacityThroughput": {
+        "value": null,
+        "unit": "Ah",
+        "_status": "dynamic",
+        "_note": "#89 Mandatory. Rendimiento acumulado de capacidad (Ah totales procesados). Requiere BMS."
       },
       "energyThroughput": {
         "value": null,
@@ -490,24 +615,41 @@
     },
 
     "temperatureConditions": {
+      "temperatureInformation": {
+        "value": "Rango operativo: 0°C a 45°C (carga), -20°C a 55°C (descarga). Almacenamiento: -20°C a 55°C. Carga óptima: 15–35°C.",
+        "_status": "assumed",
+        "_note": "#91 Mandatory. Información general de condiciones de temperatura."
+      },
       "temperatureRangeIdleState": {
         "lowerBoundary": -20,
         "upperBoundary": 55,
         "unit": "°C",
         "_status": "assumed",
-        "_note": "Rango de almacenamiento típico para LFP. Rango operativo: 0–45°C."
+        "_note": "#92-93 Mandatory. Rango de almacenamiento típico para LFP. Rango operativo: 0–45°C."
       },
       "timeExtremeHighTemp": {
         "value": null,
         "unit": "hours",
         "_status": "dynamic",
-        "_note": "Dato dinámico. Requiere BMS."
+        "_note": "#94 Mandatory. Dato dinámico. Requiere BMS."
       },
       "timeExtremeLowTemp": {
         "value": null,
         "unit": "hours",
         "_status": "dynamic",
-        "_note": "Dato dinámico. Requiere BMS."
+        "_note": "#95 Mandatory. Dato dinámico. Requiere BMS."
+      },
+      "timeChargingExtremeHighTemp": {
+        "value": null,
+        "unit": "hours",
+        "_status": "dynamic",
+        "_note": "#96 Mandatory. Tiempo acumulado cargando por encima del límite superior de temperatura. Requiere BMS."
+      },
+      "timeChargingExtremeLowTemp": {
+        "value": null,
+        "unit": "hours",
+        "_status": "dynamic",
+        "_note": "#97 Mandatory. Tiempo acumulado cargando por debajo del límite inferior de temperatura. Requiere BMS."
       }
     },
 
